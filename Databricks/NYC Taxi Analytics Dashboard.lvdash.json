@@ -1,0 +1,622 @@
+{
+  "datasets": [
+    {
+      "name": "6b29efba",
+      "displayName": "Summary of New York City Taxi Trip Metrics",
+      "queryLines": [
+        "SELECT \r\n",
+        "    COUNT(*) AS total_trips,\r\n",
+        "    ROUND(SUM(total_amount), 2) AS total_revenue,\r\n",
+        "    ROUND(AVG(trip_duration_mins), 2) AS avg_trip_duration,\r\n",
+        "    ROUND(AVG(tip_percentage), 2) AS avg_tip_pct\r\n",
+        "FROM nyctaxi.taxi_db.gold_taxi_trips;"
+      ],
+      "catalog": "nyctaxi",
+      "schema": "taxi_db"
+    },
+    {
+      "name": "8cdeb6f5",
+      "displayName": "Taxi Trip Counts by Pickup Hour Category",
+      "queryLines": [
+        "SELECT \r\n",
+        "    pickup_hour_category,\r\n",
+        "    COUNT(*) AS trips\r\n",
+        "FROM nyctaxi.taxi_db.gold_taxi_trips\r\n",
+        "GROUP BY pickup_hour_category\r\n",
+        "ORDER BY trips DESC;"
+      ],
+      "catalog": "nyctaxi",
+      "schema": "taxi_db"
+    },
+    {
+      "name": "43fa2edb",
+      "displayName": "Hourly Taxi Ride Totals by Pickup Time",
+      "queryLines": [
+        "SELECT \r\n",
+        "    pickup_hour,\r\n",
+        "    COUNT(*) AS trips\r\n",
+        "FROM nyctaxi.taxi_db.gold_taxi_trips\r\n",
+        "GROUP BY pickup_hour\r\n",
+        "ORDER BY pickup_hour;"
+      ],
+      "catalog": "nyctaxi",
+      "schema": "taxi_db"
+    },
+    {
+      "name": "73fe762a",
+      "displayName": "Taxi Payment Category Revenue Summary",
+      "queryLines": [
+        "SELECT \r\n",
+        "    payment_category,\r\n",
+        "    ROUND(SUM(total_amount), 2) AS revenue\r\n",
+        "FROM nyctaxi.taxi_db.gold_taxi_trips\r\n",
+        "GROUP BY payment_category;"
+      ],
+      "catalog": "nyctaxi",
+      "schema": "taxi_db"
+    },
+    {
+      "name": "68f1eb9a",
+      "displayName": "Taxi Trip Distance Summary by Category",
+      "queryLines": [
+        "SELECT \r\n",
+        "    trip_distance_category,\r\n",
+        "    COUNT(*) AS trips\r\n",
+        "FROM nyctaxi.taxi_db.gold_taxi_trips\r\n",
+        "GROUP BY trip_distance_category;"
+      ],
+      "catalog": "nyctaxi",
+      "schema": "taxi_db"
+    },
+    {
+      "name": "f9e3ba9e",
+      "displayName": "Average Taxi Cost Per Mile by Distance Category",
+      "queryLines": [
+        "SELECT \r\n",
+        "    trip_distance_category,\r\n",
+        "    ROUND(AVG(cost_per_mile), 2) AS avg_cost_per_mile\r\n",
+        "FROM nyctaxi.taxi_db.gold_taxi_trips\r\n",
+        "GROUP BY trip_distance_category;"
+      ],
+      "catalog": "nyctaxi",
+      "schema": "taxi_db"
+    },
+    {
+      "name": "03c139d1",
+      "displayName": "Taxi Trip Summary with Duration Amount and Distance Categories",
+      "queryLines": [
+        "SELECT \r\n",
+        "    trip_duration_mins,\r\n",
+        "    total_amount,\r\n",
+        "    trip_distance_category\r\n",
+        "FROM nyctaxi.taxi_db.gold_taxi_trips\r\n",
+        "LIMIT 10000;"
+      ],
+      "catalog": "nyctaxi",
+      "schema": "taxi_db"
+    },
+    {
+      "name": "19ea59c9",
+      "displayName": "Average Taxi Tip Percentage by Payment Method",
+      "queryLines": [
+        "SELECT \r\n",
+        "    payment_category,\r\n",
+        "    ROUND(AVG(tip_percentage), 2) AS avg_tip\r\n",
+        "FROM nyctaxi.taxi_db.gold_taxi_trips\r\n",
+        "GROUP BY payment_category;"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "f6c8a87d",
+      "displayName": "nyc_taxi_dshboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "total-trips",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "6b29efba",
+                  "fields": [
+                    {
+                      "name": "total_trips",
+                      "expression": "`total_trips`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Total_trips"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_trips"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "total-revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "6b29efba",
+                  "fields": [
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Total_revenue"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_revenue"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 1,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "avg-tri-p-duration",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "6b29efba",
+                  "fields": [
+                    {
+                      "name": "avg_trip_duration",
+                      "expression": "`avg_trip_duration`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Avg_tri[p_duration"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg_trip_duration"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 1,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "avg-trip",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "6b29efba",
+                  "fields": [
+                    {
+                      "name": "avg_tip_pct",
+                      "expression": "`avg_tip_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Avg_trip_pct"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg_tip_pct"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 1,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "trips-time-day",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "8cdeb6f5",
+                  "fields": [
+                    {
+                      "name": "sum(trips)",
+                      "expression": "SUM(`trips`)"
+                    },
+                    {
+                      "name": "pickup_hour_category",
+                      "expression": "`pickup_hour_category`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Trips by Time of Day "
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(trips)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "pickup_hour_category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "trips-by-hour-peak-analysis",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "43fa2edb",
+                  "fields": [
+                    {
+                      "name": "pickup_hour",
+                      "expression": "`pickup_hour`"
+                    },
+                    {
+                      "name": "trips",
+                      "expression": "`trips`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Trips by Hour (Peak Analysis)"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "pickup_hour",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "trips",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 4,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "revenue-payment-type",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "73fe762a",
+                  "fields": [
+                    {
+                      "name": "sum(revenue)",
+                      "expression": "SUM(`revenue`)"
+                    },
+                    {
+                      "name": "payment_category",
+                      "expression": "`payment_category`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by Payment Type"
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "payment_category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "trip-distance-distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "68f1eb9a",
+                  "fields": [
+                    {
+                      "name": "trip_distance_category",
+                      "expression": "`trip_distance_category`"
+                    },
+                    {
+                      "name": "trips",
+                      "expression": "`trips`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Trip Distance Distribution"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "trip_distance_category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "trips",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 10,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "cost-efficiency",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f9e3ba9e",
+                  "fields": [
+                    {
+                      "name": "trip_distance_category",
+                      "expression": "`trip_distance_category`"
+                    },
+                    {
+                      "name": "sum(avg_cost_per_mile)",
+                      "expression": "SUM(`avg_cost_per_mile`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Cost Efficiency"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "trip_distance_category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(avg_cost_per_mile)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 16,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "bf680d99",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "03c139d1",
+                  "fields": [
+                    {
+                      "name": "trip_distance_category",
+                      "expression": "`trip_distance_category`"
+                    },
+                    {
+                      "name": "trip_duration_mins",
+                      "expression": "`trip_duration_mins`"
+                    },
+                    {
+                      "name": "total_amount",
+                      "expression": "`total_amount`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "trip_duration_mins",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "total_amount",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "trip_distance_category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 16,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "70854bc0",
+            "multilineTextboxSpec": {
+              "lines": [
+                "NYC Taxi Analytics Dashboard(Data Period: Jan 1 – Jan 30, 2024)"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 1
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "e92376df",
+      "displayName": "Global Filters",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
