@@ -1,0 +1,29 @@
+resources:
+  jobs:
+    nyc_taxi_main_job:
+      name: ${bundle.target}_nyc_taxi_job
+      tasks:
+        - task_key: Auto_loader
+          notebook_task:
+            notebook_path: ../../src/notebooks/autoloader.ipynb
+            source: WORKSPACE
+        - task_key: transformed_etl
+          depends_on:
+            - task_key: Auto_loader
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.pipeline_transformed_etl_pipeline.id}
+            full_refresh: true
+        - task_key: nyc_taxi_dashboard
+          depends_on:
+            - task_key: transformed_etl
+          dashboard_task:
+            subscription:
+              subscribers:
+                - user_name: singamshiva78_gmail.com#ext#@singamshiva78gmail.onmicrosoft.com
+              paused: false
+              custom_subject: This is nyc_taxi_dashboard
+            warehouse_id: ${var.warehouse_id}
+            dashboard_id: ${resources.dashboards.my_dashboard.id}
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED

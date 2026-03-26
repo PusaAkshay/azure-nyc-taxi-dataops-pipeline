@@ -1,0 +1,6 @@
+resources:
+  dashboards:
+    my_dashboard:
+      display_name: NYC_TAXI_DATA DASHBOARD
+      file_path: ../../src/dashboards/nyc_taxi_dashboard.json
+      warehouse_id: ${var.warehouse_id}

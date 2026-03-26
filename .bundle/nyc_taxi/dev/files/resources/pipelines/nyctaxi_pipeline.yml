@@ -1,0 +1,15 @@
+resources:
+  pipelines:
+    pipeline_transformed_etl_pipeline:
+      name: ${bundle.target}_transformed_etl_pipeline
+      libraries:
+        - file:
+            path: ../../src/etl_pipelines/transformed.py
+      schema: ${var.schema}
+      photon: true
+      catalog: ${var.catalog}
+      serverless: true
+      
+      configuration:
+        bundle_catalog: ${var.catalog}
+        bundle_schema: ${var.schema}

@@ -1,0 +1,56 @@
+# This is a Databricks asset bundle definition for nyc_taxi.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: nyc_taxi
+  uuid: 2f893f83-9ee7-44a3-8630-a8f35c4d59bd
+
+include:
+  - resources/*.yml
+  - resource/*/*.yml
+  - resources/pipelines/*.yml   
+  - resources/jobs/*.yml
+  - resources/dashboards/*.yml
+
+
+
+# Variable declarations. These variables are assigned in the dev/prod targets below.
+variables:
+  warehouse_id:
+    description: The warehouse_id
+    default: 70cc38278374a1c1
+  catalog:
+    description: The catalog to used "uc catalog"
+    default: nyctaxi
+  schema:
+    description: The schema to use
+    default: taxi_db
+
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    presets:
+       name_perfix: dev_${workspace.current_user.short_name}
+       source_linked_deployment: false 
+    workspace:
+      host: https://adb-7405606765856516.16.azuredatabricks.net
+    variables:
+      catalog: nyctaxi
+      schema: dev_nyctaxi_db
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-7405606765856516.16.azuredatabricks.net
+      # We explicitly deploy to /Workspace/Users/singamshiva78_gmail.com#ext#@singamshiva78gmail.onmicrosoft.com to make sure we only have a single copy.
+      root_path: /Workspace/Users/singamshiva78_gmail.com#ext#@singamshiva78gmail.onmicrosoft.com/PROD/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: nyctaxi
+      schema: prod_nyctaxi_db
+    permissions:
+      - user_name: singamshiva78_gmail.com#ext#@singamshiva78gmail.onmicrosoft.com
+        level: CAN_MANAGE
