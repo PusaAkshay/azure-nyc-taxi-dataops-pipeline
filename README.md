@@ -93,7 +93,6 @@ DLT tables (`bronze_nyctaxi_trips`, `silver_nyctaxi_trips`, `gold_nyctaxi_trips`
 
 ## 📂 Repository Structure
 NYC-Taxi-DataOps-Pipeline/
-NYC-Taxi-DataOps-Pipeline/
 ├── ADF/
 │   ├── pipelines/
 │   ├── datasets/
@@ -112,7 +111,6 @@ NYC-Taxi-DataOps-Pipeline/
     ├── job_run.png
     ├── dashboard.png
     └── databricks_bundle_execution_success.png
-
 ---
 
 ## ⚙️ Detailed Execution Steps
@@ -150,7 +148,7 @@ NYC-Taxi-DataOps-Pipeline/
 ---
 
 ### Step 6 — Data Visualization (Dashboard)
-![Dashboard](https://github.com/PusaAkshay/azure-nyc-taxi-dataops-pipeline/blob/919336505f7238e8beabb87a314b03d0966cfd01/Dashboard.png)
+![Dashboard](https://github.com/PusaAkshay/azure-nyc-taxi-dataops-pipeline/blob/6aed389f55aab9c47134250306660e13ebc96612/Dashboard.png)
 
 Built using Databricks Lakeview Dashboard connected to curated NYC Taxi Gold Layer data.
 
