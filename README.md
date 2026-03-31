@@ -92,6 +92,7 @@ DLT tables (`bronze_nyctaxi_trips`, `silver_nyctaxi_trips`, `gold_nyctaxi_trips`
 ---
 
 ## 📂 Repository Structure
+```
 NYC-Taxi-DataOps-Pipeline/
 ├── ADF/
 │   ├── pipelines/
@@ -111,6 +112,8 @@ NYC-Taxi-DataOps-Pipeline/
     ├── job_run.png
     ├── dashboard.png
     └── databricks_bundle_execution_success.png
+```
+    
 ---
 
 ## ⚙️ Detailed Execution Steps
